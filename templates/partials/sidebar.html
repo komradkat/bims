@@ -21,7 +21,7 @@
             Projects
         </a>
         
-        <a href="#" class="btn btn-secondary" style="justify-content: flex-start; border: none; color: rgba(255,255,255,0.8); opacity: 0.5;">
+        <a href="{% url 'document_request_create' %}" class="btn btn-secondary {% if 'documents' in request.path %}active{% endif %}" style="justify-content: flex-start; border: none; color: rgba(255,255,255,0.8);">
             Documents
         </a>
     </nav>

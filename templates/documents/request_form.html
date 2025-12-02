@@ -1,0 +1,83 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Document Issuance - BIMS{% endblock %}
+
+{% block header_title %}Document Issuance{% endblock %}
+
+{% block content %}
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+    <!-- Request Form -->
+    <div class="card">
+        <div class="card-header">New Request</div>
+        <form method="post">
+            {% csrf_token %}
+            
+            {% if form.errors %}
+                <div style="background-color: #ffebee; color: #c62828; padding: 0.75rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                    Please correct the errors below.
+                </div>
+            {% endif %}
+            
+            <div class="form-group">
+                <label for="{{ form.resident.id_for_label }}" class="form-label">Resident</label>
+                {{ form.resident }}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.document_type.id_for_label }}" class="form-label">Document Type</label>
+                {{ form.document_type }}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.purpose.id_for_label }}" class="form-label">Purpose</label>
+                {{ form.purpose }}
+            </div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                <div class="form-group">
+                    <label for="{{ form.or_number.id_for_label }}" class="form-label">OR Number</label>
+                    {{ form.or_number }}
+                </div>
+                
+                <div class="form-group">
+                    <label for="{{ form.amount_paid.id_for_label }}" class="form-label">Amount Paid</label>
+                    {{ form.amount_paid }}
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" style="width: 100%;">Generate Document</button>
+        </form>
+    </div>
+    
+    <!-- Recent Requests -->
+    <div class="card">
+        <div class="card-header">Recent Requests</div>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Resident</th>
+                    <th>Document</th>
+                    <th>Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for req in recent_requests %}
+                <tr>
+                    <td>{{ req.resident.last_name }}, {{ req.resident.first_name }}</td>
+                    <td>{{ req.get_document_type_display }}</td>
+                    <td>{{ req.date_issued|date:"M d" }}</td>
+                    <td>
+                        <a href="{% url 'document_generate_pdf' req.id %}" target="_blank" class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Reprint</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" style="text-align: center; color: var(--color-text-secondary);">No requests yet.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

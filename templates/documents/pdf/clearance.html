@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Barangay Clearance</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 1in;
+        }
+        body {
+            font-family: 'Times New Roman', serif;
+            line-height: 1.5;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .header h3, .header h4 {
+            margin: 0;
+            font-weight: normal;
+        }
+        .header h2 {
+            margin: 0.5rem 0;
+            text-transform: uppercase;
+        }
+        .title {
+            text-align: center;
+            text-transform: uppercase;
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin: 2rem 0;
+            text-decoration: underline;
+        }
+        .content {
+            text-align: justify;
+            margin-bottom: 3rem;
+        }
+        .signature-section {
+            margin-top: 3rem;
+            float: right;
+            width: 40%;
+            text-align: center;
+        }
+        .signature-line {
+            border-top: 1px solid black;
+            margin-top: 2rem;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .official-seal {
+            position: absolute;
+            top: 0.5in;
+            right: 1in;
+            width: 100px;
+            height: 100px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h4>Republic of the Philippines</h4>
+        <h4>{{ barangay.province }}</h4>
+        <h4>{{ barangay.city_municipality }}</h4>
+        <h2>{{ barangay.name }}</h2>
+        <h4>OFFICE OF THE PUNONG BARANGAY</h4>
+    </div>
+
+    <div class="title">BARANGAY CLEARANCE</div>
+
+    <div class="content">
+        <p><strong>TO WHOM IT MAY CONCERN:</strong></p>
+
+        <p>This is to certify that <strong>{{ resident.first_name }} {{ resident.middle_name }} {{ resident.last_name }}</strong>, 
+        {{ resident.get_sex_display }}, of legal age, and a resident of {{ resident.street_address }}, {{ barangay.name }}, 
+        {{ barangay.city_municipality }}, is a person of good moral character and law-abiding citizen.</p>
+
+        <p>This certification is being issued upon the request of the above-named person for the purpose of: <strong>{{ doc.purpose }}</strong>.</p>
+
+        <p>Issued this {{ date|date:"jS" }} day of {{ date|date:"F Y" }} at {{ barangay.name }}, {{ barangay.city_municipality }}.</p>
+    </div>
+
+    <div class="signature-section">
+        <div class="signature-line">
+            {% if captain %}
+                {{ captain.first_name }} {{ captain.last_name }}
+            {% else %}
+                HON. BARANGAY CAPTAIN
+            {% endif %}
+        </div>
+        <div>Punong Barangay</div>
+    </div>
+    
+    <div style="clear: both;"></div>
+    
+    <div style="margin-top: 2rem; font-size: 0.8rem;">
+        <div>OR No.: {{ doc.or_number }}</div>
+        <div>Amount Paid: ₱{{ doc.amount_paid }}</div>
+        <div>Date Issued: {{ date|date:"Y-m-d" }}</div>
+    </div>
+</body>
+</html>

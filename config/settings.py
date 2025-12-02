@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'apps.residents',
     'apps.officials',
     'apps.projects',
+    'apps.documents',
     'django.contrib.humanize',
 ]
 
