@@ -1,0 +1,50 @@
+body {
+    margin: 0;
+    font-family: var(--font-family-sans);
+    background-color: var(--color-background);
+    color: var(--color-text);
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: 64px 1fr;
+    grid-template-areas: 
+        "sidebar header"
+        "sidebar main";
+}
+
+.app-sidebar {
+    grid-area: sidebar;
+    background-color: var(--color-primary);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-md);
+    box-shadow: var(--shadow-lg);
+    z-index: 10;
+}
+
+.app-header {
+    grid-area: header;
+    background-color: var(--color-surface);
+    border-bottom: 1px solid var(--color-border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--space-xl);
+    box-shadow: var(--shadow-sm);
+}
+
+.app-main {
+    grid-area: main;
+    padding: var(--space-xl);
+    overflow-y: auto;
+}
+
+/* Auth Layout (Centered) */
+.auth-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
+}

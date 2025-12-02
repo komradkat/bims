@@ -1,0 +1,11 @@
+<header class="app-header">
+    <h1 style="font-size: 1.25rem; font-weight: 600; margin: 0;">{% block header_title %}Dashboard{% endblock %}</h1>
+    
+    <div style="display: flex; align-items: center; gap: 1rem;">
+        <span>{{ user.username }} ({{ user.role }})</span>
+        <form action="{% url 'logout' %}" method="post" style="margin: 0;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-secondary" style="font-size: 0.875rem;">Logout</button>
+        </form>
+    </div>
+</header>

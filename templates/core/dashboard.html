@@ -1,0 +1,73 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Dashboard - {{ barangay_info.name|default:"BIMS" }}{% endblock %}
+
+{% block header_title %}
+    {% if barangay_info %}
+        {{ barangay_info.name }} Dashboard
+    {% else %}
+        Home Dashboard
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+{% if not barangay_info %}
+<div class="card" style="margin-bottom: 2rem; border-left: 4px solid var(--color-secondary);">
+    <div style="display: flex; justify-content: space-between; align-items: center;">
+        <div>
+            <h3 style="margin: 0 0 0.5rem 0;">Welcome to BIMS!</h3>
+            <p style="margin: 0; color: var(--color-text-secondary);">It looks like you haven't configured your Barangay Information yet.</p>
+        </div>
+        <a href="{% url 'admin:core_barangayinfo_add' %}" class="btn btn-primary">Configure Now</a>
+    </div>
+</div>
+{% endif %}
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
+    
+    <!-- Vision & Mission -->
+    <div class="card">
+        <div class="card-header" style="color: var(--color-primary);">Vision</div>
+        <p style="line-height: 1.6;">
+            {{ barangay_info.vision|default:"To be a model barangay that is peaceful, progressive, and ecologically balanced, inhabited by God-fearing, healthy, and empowered citizenry, governed by transparent and accountable officials." }}
+        </p>
+    </div>
+    
+    <div class="card">
+        <div class="card-header" style="color: var(--color-primary);">Mission</div>
+        <p style="line-height: 1.6;">
+            {{ barangay_info.mission|default:"To provide quality services and implement sustainable programs that will improve the quality of life of the residents through active community participation and good governance." }}
+        </p>
+    </div>
+
+    <!-- Service Pledge -->
+    <div class="card" style="grid-column: 1 / -1;">
+        <div class="card-header" style="color: var(--color-primary);">Service Pledge</div>
+        <p style="line-height: 1.6;">
+            {{ barangay_info.service_pledge|default:"We, the officials and employees of Barangay BIMS, commit to deliver efficient, effective, and transparent public service to our constituents. We pledge to attend to your needs with courtesy and promptness, and to uphold the highest standards of public service." }}
+        </p>
+    </div>
+
+    <!-- Barangay Details (New) -->
+    {% if barangay_info %}
+    <div class="card">
+        <div class="card-header" style="color: var(--color-primary);">Barangay Details</div>
+        <ul style="list-style: none; padding: 0; margin: 0;">
+            <li style="margin-bottom: 0.5rem;"><strong>Location:</strong> {{ barangay_info.city_municipality }}, {{ barangay_info.province }}</li>
+            <li style="margin-bottom: 0.5rem;"><strong>Region:</strong> {{ barangay_info.region }}</li>
+            <li style="margin-bottom: 0.5rem;"><strong>Contact:</strong> {{ barangay_info.contact_number }}</li>
+            <li><strong>Email:</strong> {{ barangay_info.email }}</li>
+        </ul>
+    </div>
+    {% endif %}
+
+    <!-- Organizational Chart Placeholder -->
+    <div class="card" style="{% if barangay_info %}grid-column: auto;{% else %}grid-column: 1 / -1;{% endif %}">
+        <div class="card-header" style="color: var(--color-primary);">Organizational Chart</div>
+        <div style="background-color: #e3f2fd; height: 200px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-md); border: 2px dashed var(--color-primary-light);">
+            <span style="color: var(--color-primary); font-weight: 500;">[Organizational Chart Graphic Placeholder]</span>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
