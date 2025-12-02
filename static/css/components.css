@@ -75,3 +75,50 @@
     border-color: var(--color-primary);
     box-shadow: 0 0 0 3px rgba(26, 35, 126, 0.1);
 }
+
+/* Data Table */
+.data-table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.data-table th {
+    background-color: var(--color-background);
+    padding: var(--space-md);
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    border-bottom: 2px solid var(--color-border);
+}
+
+.data-table td {
+    padding: var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+    vertical-align: middle;
+}
+
+.data-table tbody tr:nth-child(even) {
+    background-color: #fcfcfc;
+}
+
+.data-table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Badges */
+.badge {
+    display: inline-block;
+    padding: 0.25em 0.6em;
+    font-size: 75%;
+    font-weight: 700;
+    line-height: 1;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    border-radius: 10rem;
+}
+
+.badge-info {
+    color: #0c5460;
+    background-color: #d1ecf1;
+}
