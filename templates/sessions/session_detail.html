@@ -1,0 +1,49 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}{{ session.title }} - BIMS{% endblock %}
+
+{% block header_title %}Session Details{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem;">
+        <div>
+            <h2 style="margin: 0 0 0.5rem 0; color: var(--color-primary);">{{ session.title }}</h2>
+            <div style="color: var(--color-text-secondary);">{{ session.date|date:"F d, Y" }}</div>
+        </div>
+        <a href="{% url 'admin:bims_sessions_session_change' session.id %}" class="btn btn-secondary">Edit</a>
+    </div>
+    
+    <div style="margin-bottom: 2rem;">
+        <h3 style="font-size: 1.1rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem;">Agenda</h3>
+        <div style="line-height: 1.6;">{{ session.agenda|linebreaks }}</div>
+    </div>
+    
+    <div style="margin-bottom: 2rem;">
+        <h3 style="font-size: 1.1rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem;">Minutes</h3>
+        {% if session.minutes %}
+            <div style="line-height: 1.6;">{{ session.minutes|linebreaks }}</div>
+        {% else %}
+            <div style="color: var(--color-text-secondary); font-style: italic;">No minutes recorded yet.</div>
+        {% endif %}
+    </div>
+    
+    <div style="margin-bottom: 2rem;">
+        <h3 style="font-size: 1.1rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem;">Attendees</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.5rem;">
+            {% for attendee in session.attendees.all %}
+                <span class="badge badge-info" style="font-size: 0.875rem;">{{ attendee.first_name }} {{ attendee.last_name }}</span>
+            {% empty %}
+                <span style="color: var(--color-text-secondary);">No attendees recorded.</span>
+            {% endfor %}
+        </div>
+    </div>
+    
+    {% if session.attachments %}
+    <div>
+        <h3 style="font-size: 1.1rem; border-bottom: 1px solid var(--color-border); padding-bottom: 0.5rem; margin-bottom: 1rem;">Attachments</h3>
+        <a href="{{ session.attachments.url }}" target="_blank" class="btn btn-secondary">Download Attachment</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

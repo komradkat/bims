@@ -1,0 +1,84 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Audit Trail - BIMS{% endblock %}
+
+{% block header_title %}System Audit Trail{% endblock %}
+
+{% block content %}
+<div class="card">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Timestamp</th>
+                <th>User</th>
+                <th>Action</th>
+                <th>Target</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for log in logs %}
+            <tr>
+                <td style="white-space: nowrap; color: var(--color-text-secondary); font-size: 0.875rem;">
+                    {{ log.timestamp|date:"Y-m-d H:i" }}
+                </td>
+                <td>
+                    {% if log.user %}
+                        <span style="font-weight: 500;">{{ log.user.username }}</span>
+                    {% else %}
+                        <span style="font-style: italic;">System</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if log.action == 'CREATE' %}
+                        <span class="badge badge-success">Create</span>
+                    {% elif log.action == 'UPDATE' %}
+                        <span class="badge badge-warning">Update</span>
+                    {% elif log.action == 'DELETE' %}
+                        <span class="badge badge-danger" style="background-color: #ffebee; color: #c62828;">Delete</span>
+                    {% elif log.action == 'LOGIN' %}
+                        <span class="badge badge-info">Login</span>
+                    {% elif log.action == 'LOGOUT' %}
+                        <span class="badge badge-secondary">Logout</span>
+                    {% else %}
+                        <span class="badge">{{ log.action }}</span>
+                    {% endif %}
+                </td>
+                <td>
+                    {% if log.model_name %}
+                        <div style="font-size: 0.75rem; text-transform: uppercase; color: var(--color-text-secondary);">{{ log.model_name }}</div>
+                    {% endif %}
+                    {{ log.object_repr|truncatechars:30 }}
+                </td>
+                <td style="font-size: 0.875rem; color: var(--color-text-secondary);">
+                    {{ log.details|truncatechars:50 }}
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5" style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+                    No activity logs found.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <div style="margin-top: 1.5rem; display: flex; justify-content: center; gap: 0.5rem;">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-secondary">Previous</a>
+        {% endif %}
+        
+        <span class="btn btn-secondary" style="pointer-events: none; background-color: var(--color-background);">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+        
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="btn btn-secondary">Next</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

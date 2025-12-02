@@ -1,0 +1,32 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Sessions & Meetings - BIMS{% endblock %}
+
+{% block header_title %}Sessions & Meetings{% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 2rem; display: flex; justify-content: flex-end;">
+    <a href="{% url 'admin:bims_sessions_session_add' %}" class="btn btn-primary">Add Session</a>
+</div>
+
+<div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.5rem;">
+    {% for session in sessions %}
+    <div class="card">
+        <div class="card-header" style="color: var(--color-primary);">{{ session.title }}</div>
+        <div style="font-size: 0.875rem; color: var(--color-text-secondary); margin-bottom: 1rem;">
+            {{ session.date|date:"F d, Y" }}
+        </div>
+        
+        <p style="margin-bottom: 1.5rem; line-height: 1.5;">
+            {{ session.agenda|truncatewords:20 }}
+        </p>
+        
+        <a href="{% url 'session_detail' session.id %}" class="btn btn-secondary" style="width: 100%; justify-content: center;">View Minutes</a>
+    </div>
+    {% empty %}
+    <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--color-text-secondary);">
+        No sessions recorded.
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
