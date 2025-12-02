@@ -198,9 +198,9 @@
         
         /* Utility for animations */
         .fade-in-up {
-            animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+            /* animation: fadeInUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
             opacity: 0;
-            transform: translateY(20px);
+            transform: translateY(20px); */
         }
         
         @media (max-width: 768px) {
@@ -286,6 +286,10 @@
                 </div>
                 {{ barangay_info.name|default:"Barangay Portal" }}
             </a>
+            
+            <button class="mobile-menu-btn" onclick="toggleMenu()">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+            </button>
             
             <nav class="nav-links">
                 <a href="{% url 'public_home' %}" class="nav-link {% if request.resolver_match.url_name == 'public_home' %}active{% endif %}">Home</a>
