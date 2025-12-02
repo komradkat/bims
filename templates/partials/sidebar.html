@@ -5,19 +5,22 @@
     </div>
     
     <nav style="display: flex; flex-direction: column; gap: 0.5rem;">
-        <a href="{% url 'home' %}" class="btn btn-secondary" style="justify-content: flex-start; border: none; color: rgba(255,255,255,0.8);">
+        <a href="{% url 'home' %}" class="btn btn-secondary {% if request.resolver_match.url_name == 'home' %}active{% endif %}" style="justify-content: flex-start; border: none; color: rgba(255,255,255,0.8);">
             Dashboard
         </a>
-        <!-- Placeholders for future phases -->
-        <a href="{% url 'residents_dashboard' %}" class="btn btn-secondary" style="justify-content: flex-start; border: none; color: rgba(255,255,255,0.8);">
+        
+        <a href="{% url 'residents_dashboard' %}" class="btn btn-secondary {% if 'residents' in request.path %}active{% endif %}" style="justify-content: flex-start; border: none; color: rgba(255,255,255,0.8);">
             Residents
         </a>
-        <a href="{% url 'official_list' %}" class="btn btn-secondary" style="justify-content: flex-start; border: none; color: rgba(255,255,255,0.8);">
+        
+        <a href="{% url 'official_list' %}" class="btn btn-secondary {% if 'officials' in request.path %}active{% endif %}" style="justify-content: flex-start; border: none; color: rgba(255,255,255,0.8);">
             Officials
         </a>
-        <a href="{% url 'project_dashboard' %}" class="btn btn-secondary" style="justify-content: flex-start; border: none; color: rgba(255,255,255,0.8);">
+        
+        <a href="{% url 'project_dashboard' %}" class="btn btn-secondary {% if 'projects' in request.path %}active{% endif %}" style="justify-content: flex-start; border: none; color: rgba(255,255,255,0.8);">
             Projects
         </a>
+        
         <a href="#" class="btn btn-secondary" style="justify-content: flex-start; border: none; color: rgba(255,255,255,0.8); opacity: 0.5;">
             Documents
         </a>

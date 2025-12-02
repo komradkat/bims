@@ -1,4 +1,5 @@
 {% extends "layouts/base.html" %}
+{% load humanize %}
 
 {% block title %}Dashboard - {{ barangay_info.name|default:"BIMS" }}{% endblock %}
 
@@ -23,51 +24,120 @@
 </div>
 {% endif %}
 
-<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 1.5rem;">
-    
-    <!-- Vision & Mission -->
+<!-- Key Metrics Row -->
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
     <div class="card">
-        <div class="card-header" style="color: var(--color-primary);">Vision</div>
-        <p style="line-height: 1.6;">
-            {{ barangay_info.vision|default:"To be a model barangay that is peaceful, progressive, and ecologically balanced, inhabited by God-fearing, healthy, and empowered citizenry, governed by transparent and accountable officials." }}
-        </p>
-    </div>
-    
-    <div class="card">
-        <div class="card-header" style="color: var(--color-primary);">Mission</div>
-        <p style="line-height: 1.6;">
-            {{ barangay_info.mission|default:"To provide quality services and implement sustainable programs that will improve the quality of life of the residents through active community participation and good governance." }}
-        </p>
-    </div>
-
-    <!-- Service Pledge -->
-    <div class="card" style="grid-column: 1 / -1;">
-        <div class="card-header" style="color: var(--color-primary);">Service Pledge</div>
-        <p style="line-height: 1.6;">
-            {{ barangay_info.service_pledge|default:"We, the officials and employees of Barangay BIMS, commit to deliver efficient, effective, and transparent public service to our constituents. We pledge to attend to your needs with courtesy and promptness, and to uphold the highest standards of public service." }}
-        </p>
-    </div>
-
-    <!-- Barangay Details (New) -->
-    {% if barangay_info %}
-    <div class="card">
-        <div class="card-header" style="color: var(--color-primary);">Barangay Details</div>
-        <ul style="list-style: none; padding: 0; margin: 0;">
-            <li style="margin-bottom: 0.5rem;"><strong>Location:</strong> {{ barangay_info.city_municipality }}, {{ barangay_info.province }}</li>
-            <li style="margin-bottom: 0.5rem;"><strong>Region:</strong> {{ barangay_info.region }}</li>
-            <li style="margin-bottom: 0.5rem;"><strong>Contact:</strong> {{ barangay_info.contact_number }}</li>
-            <li><strong>Email:</strong> {{ barangay_info.email }}</li>
-        </ul>
-    </div>
-    {% endif %}
-
-    <!-- Organizational Chart Placeholder -->
-    <div class="card" style="{% if barangay_info %}grid-column: auto;{% else %}grid-column: 1 / -1;{% endif %}">
-        <div class="card-header" style="color: var(--color-primary);">Organizational Chart</div>
-        <div style="background-color: #e3f2fd; height: 200px; display: flex; align-items: center; justify-content: center; border-radius: var(--radius-md); border: 2px dashed var(--color-primary-light);">
-            <span style="color: var(--color-primary); font-weight: 500;">[Organizational Chart Graphic Placeholder]</span>
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="background-color: #e3f2fd; padding: 1rem; border-radius: 50%; color: #1976d2;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <div>
+                <div style="font-size: 0.875rem; color: var(--color-text-secondary);">Total Population</div>
+                <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-text);">{{ total_population|intcomma }}</div>
+            </div>
         </div>
     </div>
 
+    <div class="card">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="background-color: #fff3e0; padding: 1rem; border-radius: 50%; color: #f57c00;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+            </div>
+            <div>
+                <div style="font-size: 0.875rem; color: var(--color-text-secondary);">Households (Est.)</div>
+                <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-text);">{{ total_households|intcomma }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="background-color: #e8f5e9; padding: 1rem; border-radius: 50%; color: #388e3c;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"></path></svg>
+            </div>
+            <div>
+                <div style="font-size: 0.875rem; color: var(--color-text-secondary);">Active Projects</div>
+                <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-text);">{{ active_projects_count }}</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div style="display: flex; align-items: center; gap: 1rem;">
+            <div style="background-color: #f3e5f5; padding: 1rem; border-radius: 50%; color: #7b1fa2;">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
+            </div>
+            <div>
+                <div style="font-size: 0.875rem; color: var(--color-text-secondary);">Active Officials</div>
+                <div style="font-size: 1.5rem; font-weight: 700; color: var(--color-text);">{{ active_officials_count }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1.5rem;">
+    <!-- Recent Projects -->
+    <div class="card">
+        <div class="card-header" style="display: flex; justify-content: space-between; align-items: center;">
+            <span>Recent Projects</span>
+            <a href="{% url 'project_dashboard' %}" style="font-size: 0.875rem; color: var(--color-primary); text-decoration: none;">View All</a>
+        </div>
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Project</th>
+                    <th>Status</th>
+                    <th>Budget</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for project in recent_projects %}
+                <tr>
+                    <td>
+                        <div style="font-weight: 500;">{{ project.title }}</div>
+                        <div style="font-size: 0.75rem; color: var(--color-text-secondary);">{{ project.updated_at|timesince }} ago</div>
+                    </td>
+                    <td>
+                        {% if project.status == 'COMPLETED' %}
+                            <span class="badge badge-success">Completed</span>
+                        {% elif project.status == 'ON_GOING' %}
+                            <span class="badge badge-warning">On-Going</span>
+                        {% else %}
+                            <span class="badge badge-secondary">{{ project.get_status_display }}</span>
+                        {% endif %}
+                    </td>
+                    <td style="font-family: monospace;">₱{{ project.budget|intcomma }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="3" style="text-align: center; color: var(--color-text-secondary);">No recent projects.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Demographics Summary -->
+    <div class="card">
+        <div class="card-header">Vulnerable Sectors</div>
+        <div style="display: flex; flex-direction: column; gap: 1rem;">
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-border);">
+                <span style="color: var(--color-text-secondary);">Senior Citizens</span>
+                <span style="font-weight: 600;">{{ senior_count|intcomma }}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-border);">
+                <span style="color: var(--color-text-secondary);">Youth</span>
+                <span style="font-weight: 600;">{{ youth_count|intcomma }}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center; padding-bottom: 0.5rem; border-bottom: 1px solid var(--color-border);">
+                <span style="color: var(--color-text-secondary);">PWDs</span>
+                <span style="font-weight: 600;">{{ pwd_count|intcomma }}</span>
+            </div>
+        </div>
+        
+        <div style="margin-top: 1.5rem;">
+            <a href="{% url 'residents_dashboard' %}" class="btn btn-secondary" style="width: 100%; justify-content: center;">View Full Demographics</a>
+        </div>
+    </div>
 </div>
 {% endblock %}

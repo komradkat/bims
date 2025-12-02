@@ -8,4 +8,5 @@ dependencies = [
     "django>=5.2.8",
     "faker>=38.2.0",
     "pillow>=12.0.0",
+    "weasyprint>=66.0",
 ]
