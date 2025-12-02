@@ -122,3 +122,18 @@
     color: #0c5460;
     background-color: #d1ecf1;
 }
+
+.badge-success {
+    color: #155724;
+    background-color: #d4edda;
+}
+
+.badge-warning {
+    color: #856404;
+    background-color: #fff3cd;
+}
+
+.badge-secondary {
+    color: #383d41;
+    background-color: #e2e3e5;
+}

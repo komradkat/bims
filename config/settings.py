@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'apps.core',
     'apps.authentication',
     'apps.residents',
+    'apps.officials',
+    'apps.projects',
+    'django.contrib.humanize',
 ]
 
 MIDDLEWARE = [

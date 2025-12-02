@@ -1,0 +1,81 @@
+{% extends "layouts/base.html" %}
+{% load humanize %}
+
+{% block title %}Project Monitoring - BIMS{% endblock %}
+
+{% block header_title %}Project Monitoring{% endblock %}
+
+{% block content %}
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem; margin-bottom: 2rem;">
+    <!-- Financial Aggregates -->
+    <div class="card">
+        <div style="font-size: 0.875rem; color: var(--color-text-secondary); margin-bottom: 0.5rem;">Total Annual Budget</div>
+        <div style="font-size: 2rem; font-weight: 700; color: var(--color-primary);">₱{{ total_annual_budget|intcomma }}</div>
+    </div>
+    
+    <div class="card">
+        <div style="font-size: 0.875rem; color: var(--color-text-secondary); margin-bottom: 0.5rem;">Active Projects</div>
+        <div style="font-size: 2rem; font-weight: 700; color: #2e7d32;">{{ projects.count }}</div>
+    </div>
+</div>
+
+<div class="card">
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+        <h3 style="margin: 0;">Project List</h3>
+        <a href="{% url 'admin:projects_project_add' %}" class="btn btn-primary">Add Project</a>
+    </div>
+    
+    <div style="overflow-x: auto;">
+        <table class="data-table">
+            <thead>
+                <tr>
+                    <th>Project Title</th>
+                    <th>Location</th>
+                    <th>Status</th>
+                    <th>Budget</th>
+                    <th>Timeline</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for project in projects %}
+                <tr>
+                    <td>
+                        <div style="font-weight: 600;">{{ project.title }}</div>
+                        <div style="font-size: 0.875rem; color: var(--color-text-secondary);">{{ project.description|truncatechars:50 }}</div>
+                    </td>
+                    <td>{{ project.location }}</td>
+                    <td>
+                        {% if project.status == 'COMPLETED' %}
+                            <span class="badge badge-success">Completed</span>
+                        {% elif project.status == 'ON_GOING' %}
+                            <span class="badge badge-warning">On-Going</span>
+                        {% elif project.status == 'NOT_STARTED' %}
+                            <span class="badge badge-secondary">Not Started</span>
+                        {% else %}
+                            <span class="badge">{{ project.get_status_display }}</span>
+                        {% endif %}
+                    </td>
+                    <td style="font-family: monospace;">₱{{ project.budget|intcomma }}</td>
+                    <td>
+                        <div style="font-size: 0.875rem;">
+                            Start: {{ project.start_date|date:"M d, Y" }}<br>
+                            Target: {{ project.target_end_date|date:"M d, Y" }}
+                        </div>
+                    </td>
+                    <td>
+                        <a href="{% url 'admin:projects_project_change' project.id %}" class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">Edit</a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6" style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+                        No active projects found.
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
