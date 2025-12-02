@@ -8,6 +8,7 @@ class DocumentRequest(models.Model):
         INDIGENCY = 'INDIGENCY', _('Certificate of Indigency')
         RESIDENCY = 'RESIDENCY', _('Certificate of Residency')
         BUSINESS_CLEARANCE = 'BUSINESS', _('Business Clearance')
+        BARANGAY_ID = 'ID', _('Barangay ID')
 
     resident = models.ForeignKey(Resident, on_delete=models.CASCADE, related_name='document_requests')
     document_type = models.CharField(_('Document Type'), max_length=20, choices=DocumentType.choices)

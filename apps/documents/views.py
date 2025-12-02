@@ -60,6 +60,7 @@ class DocumentPDFView(LoginRequiredMixin, TemplateView):
             DocumentRequest.DocumentType.INDIGENCY: 'documents/pdf/indigency.html',
             DocumentRequest.DocumentType.RESIDENCY: 'documents/pdf/residency.html',
             DocumentRequest.DocumentType.BUSINESS_CLEARANCE: 'documents/pdf/business.html',
+            DocumentRequest.DocumentType.BARANGAY_ID: 'documents/pdf/barangay_id.html',
         }
         
         template_name = template_map.get(doc_request.document_type, 'documents/pdf/generic.html')

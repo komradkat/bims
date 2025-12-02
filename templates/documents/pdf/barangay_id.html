@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Barangay ID</title>
+    <style>
+        @page {
+            size: 3.375in 2.125in;
+            margin: 0;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            width: 3.375in;
+            height: 2.125in;
+            background-color: #f0f0f0;
+            position: relative;
+            overflow: hidden;
+        }
+        .card-container {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+            color: white;
+            padding: 0.15in;
+            box-sizing: border-box;
+            position: relative;
+        }
+        .header {
+            text-align: center;
+            font-size: 8px;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 10px;
+            font-weight: bold;
+            color: #ffeb3b;
+        }
+        .photo-box {
+            width: 0.8in;
+            height: 0.8in;
+            background-color: white;
+            border: 2px solid #ffeb3b;
+            position: absolute;
+            top: 0.5in;
+            left: 0.15in;
+            overflow: hidden;
+        }
+        .photo-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .details {
+            margin-left: 1in;
+            margin-top: 0.1in;
+            font-size: 9px;
+        }
+        .name {
+            font-size: 12px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+            color: #ffeb3b;
+        }
+        .info-row {
+            margin-bottom: 2px;
+        }
+        .label {
+            color: #bbdefb;
+            font-size: 7px;
+        }
+        .signature {
+            position: absolute;
+            bottom: 0.15in;
+            right: 0.15in;
+            text-align: center;
+            width: 1.2in;
+        }
+        .signature-line {
+            border-top: 1px solid white;
+            margin-top: 15px;
+        }
+        .captain-name {
+            font-size: 8px;
+            font-weight: bold;
+            margin-top: 2px;
+        }
+        .captain-title {
+            font-size: 6px;
+        }
+        .id-number {
+            position: absolute;
+            bottom: 0.15in;
+            left: 0.15in;
+            font-size: 8px;
+            font-family: monospace;
+        }
+    </style>
+</head>
+<body>
+    <div class="card-container">
+        <div class="header">
+            <div>Republic of the Philippines</div>
+            <div>{{ barangay.city_municipality }}, {{ barangay.province }}</div>
+            <h1>{{ barangay.name }}</h1>
+        </div>
+
+        <div class="photo-box">
+            {% if resident.photo %}
+                <img src="{{ resident.photo.path }}" alt="Photo">
+            {% else %}
+                <div style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; color:#ccc; font-size:20px;">?</div>
+            {% endif %}
+        </div>
+
+        <div class="details">
+            <div class="name">{{ resident.last_name }}, {{ resident.first_name }} {{ resident.middle_name|first }}.</div>
+            
+            <div class="info-row">
+                <span class="label">Address:</span><br>
+                {{ resident.street_address|truncatechars:30 }}
+            </div>
+            
+            <div class="info-row">
+                <span class="label">Birthdate:</span> {{ resident.birthdate|date:"M d, Y" }}
+            </div>
+            
+            <div class="info-row">
+                <span class="label">Sex:</span> {{ resident.get_sex_display }}
+            </div>
+        </div>
+
+        <div class="id-number">
+            ID: {{ resident.id|stringformat:"06d" }}
+        </div>
+
+        <div class="signature">
+            <div class="signature-line"></div>
+            <div class="captain-name">
+                {% if captain %}
+                    HON. {{ captain.last_name|upper }}, {{ captain.first_name|upper }}
+                {% else %}
+                    HON. BARANGAY CAPTAIN
+                {% endif %}
+            </div>
+            <div class="captain-title">Punong Barangay</div>
+        </div>
+    </div>
+</body>
+</html>
