@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'apps.projects',
     'apps.documents',
     'apps.sessions',
+    'apps.blotter',
     'django.contrib.humanize',
 ]
 

@@ -1,0 +1,65 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Case #{{ case.id }} - BIMS{% endblock %}
+
+{% block header_title %}Case Details{% endblock %}
+
+{% block content %}
+<div style="display: grid; grid-template-columns: 2fr 1fr; gap: 2rem;">
+    <!-- Main Details -->
+    <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 2rem;">
+            <div>
+                <h2 style="margin: 0 0 0.5rem 0; color: var(--color-primary);">Case #{{ case.id }}</h2>
+                <div style="color: var(--color-text-secondary);">Filed on {{ case.date_filed|date:"F d, Y" }}</div>
+            </div>
+            <span class="badge {% if case.status == 'ACTIVE' %}badge-warning{% elif case.status == 'SETTLED' %}badge-success{% else %}badge-secondary{% endif %}" style="font-size: 1rem;">
+                {{ case.get_status_display }}
+            </span>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2rem;">
+            <div>
+                <h3 style="font-size: 0.875rem; text-transform: uppercase; color: var(--color-text-secondary); margin-bottom: 0.5rem;">Complainant</h3>
+                <div style="font-size: 1.1rem; font-weight: 600;">{{ case.complainant }}</div>
+                <div style="font-size: 0.875rem;">{{ case.complainant.street_address }}</div>
+            </div>
+            <div>
+                <h3 style="font-size: 0.875rem; text-transform: uppercase; color: var(--color-text-secondary); margin-bottom: 0.5rem;">Respondent</h3>
+                <div style="font-size: 1.1rem; font-weight: 600;">{{ case.respondent }}</div>
+                <div style="font-size: 0.875rem;">{{ case.respondent.street_address }}</div>
+            </div>
+        </div>
+        
+        <div style="margin-bottom: 2rem;">
+            <h3 style="font-size: 0.875rem; text-transform: uppercase; color: var(--color-text-secondary); margin-bottom: 0.5rem;">Incident Details</h3>
+            <div style="background-color: var(--color-background); padding: 1rem; border-radius: var(--radius-md);">
+                <div style="margin-bottom: 0.5rem;"><strong>Type:</strong> {{ case.get_case_type_display }}</div>
+                <div style="margin-bottom: 0.5rem;"><strong>Date:</strong> {{ case.incident_date|date:"F d, Y h:i A" }}</div>
+                <div style="margin-bottom: 0.5rem;"><strong>Place:</strong> {{ case.incident_place }}</div>
+                <div style="margin-top: 1rem; line-height: 1.6;">{{ case.narrative|linebreaks }}</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Hearings Sidebar -->
+    <div class="card">
+        <div class="card-header">Hearings</div>
+        {% for hearing in case.hearings.all %}
+        <div style="padding-bottom: 1rem; margin-bottom: 1rem; border-bottom: 1px solid var(--color-border);">
+            <div style="font-weight: 600; color: var(--color-primary);">{{ hearing.date|date:"M d, Y" }}</div>
+            <div style="font-size: 0.875rem; color: var(--color-text-secondary);">{{ hearing.date|date:"h:i A" }}</div>
+            {% if hearing.remarks %}
+                <div style="margin-top: 0.5rem; font-size: 0.875rem; font-style: italic;">"{{ hearing.remarks }}"</div>
+            {% endif %}
+        </div>
+        {% empty %}
+        <div style="color: var(--color-text-secondary); text-align: center;">No hearings scheduled.</div>
+        {% endfor %}
+        
+        <div style="margin-top: 1rem; text-align: center;">
+            <a href="{% url 'admin:blotter_blottercase_change' case.id %}" class="btn btn-secondary" style="width: 100%; justify-content: center;">Manage Hearings</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

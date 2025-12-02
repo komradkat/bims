@@ -28,6 +28,10 @@
             Sessions
         </a>
         
+        <a href="{% url 'blotter_case_list' %}" class="btn btn-secondary {% if 'blotter' in request.path %}active{% endif %}" style="justify-content: flex-start; border: none; color: rgba(255,255,255,0.8);">
+            Blotter
+        </a>
+        
         {% if user.is_superuser or user.role == 'ADMIN' %}
         <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.1);">
             <a href="{% url 'activity_logs' %}" class="btn btn-secondary {% if 'logs' in request.path %}active{% endif %}" style="justify-content: flex-start; border: none; color: rgba(255,255,255,0.8);">

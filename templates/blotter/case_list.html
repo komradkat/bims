@@ -1,0 +1,77 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}Blotter Cases - BIMS{% endblock %}
+
+{% block header_title %}Katarungang Pambarangay (Blotter){% endblock %}
+
+{% block content %}
+<div style="margin-bottom: 2rem; display: flex; justify-content: flex-end;">
+    <a href="{% url 'blotter_case_add' %}" class="btn btn-primary">File New Case</a>
+</div>
+
+<div class="card">
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Case No.</th>
+                <th>Parties</th>
+                <th>Type</th>
+                <th>Status</th>
+                <th>Date Filed</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for case in cases %}
+            <tr>
+                <td style="font-family: monospace;">#{{ case.id }}</td>
+                <td>
+                    <div style="font-weight: 500;">{{ case.complainant }}</div>
+                    <div style="font-size: 0.75rem; color: var(--color-text-secondary);">vs</div>
+                    <div style="font-weight: 500;">{{ case.respondent }}</div>
+                </td>
+                <td>{{ case.get_case_type_display }}</td>
+                <td>
+                    {% if case.status == 'ACTIVE' %}
+                        <span class="badge badge-warning">Active</span>
+                    {% elif case.status == 'SETTLED' %}
+                        <span class="badge badge-success">Settled</span>
+                    {% elif case.status == 'DISMISSED' %}
+                        <span class="badge badge-secondary">Dismissed</span>
+                    {% else %}
+                        <span class="badge badge-danger">{{ case.get_status_display }}</span>
+                    {% endif %}
+                </td>
+                <td>{{ case.date_filed|date:"M d, Y" }}</td>
+                <td>
+                    <a href="{% url 'blotter_case_detail' case.id %}" class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.75rem;">View</a>
+                </td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="6" style="text-align: center; padding: 2rem; color: var(--color-text-secondary);">
+                    No blotter cases recorded.
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <!-- Pagination -->
+    {% if is_paginated %}
+    <div style="margin-top: 1.5rem; display: flex; justify-content: center; gap: 0.5rem;">
+        {% if page_obj.has_previous %}
+            <a href="?page={{ page_obj.previous_page_number }}" class="btn btn-secondary">Previous</a>
+        {% endif %}
+        
+        <span class="btn btn-secondary" style="pointer-events: none; background-color: var(--color-background);">
+            Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+        </span>
+        
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="btn btn-secondary">Next</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

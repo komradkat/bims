@@ -1,0 +1,60 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}File New Case - BIMS{% endblock %}
+
+{% block header_title %}File New Blotter Case{% endblock %}
+
+{% block content %}
+<div class="card" style="max-width: 800px; margin: 0 auto;">
+    <form method="post">
+        {% csrf_token %}
+        
+        {% if form.errors %}
+            <div style="background-color: #ffebee; color: #c62828; padding: 0.75rem; border-radius: var(--radius-md); margin-bottom: 1rem;">
+                Please correct the errors below.
+            </div>
+        {% endif %}
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div class="form-group">
+                <label for="{{ form.complainant.id_for_label }}" class="form-label">Complainant</label>
+                {{ form.complainant }}
+                <small style="color: var(--color-text-secondary);">Select from registered residents</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.respondent.id_for_label }}" class="form-label">Respondent</label>
+                {{ form.respondent }}
+                <small style="color: var(--color-text-secondary);">Select from registered residents</small>
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.case_type.id_for_label }}" class="form-label">Nature of Case</label>
+            {{ form.case_type }}
+        </div>
+        
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;">
+            <div class="form-group">
+                <label for="{{ form.incident_date.id_for_label }}" class="form-label">Date & Time of Incident</label>
+                {{ form.incident_date }}
+            </div>
+            
+            <div class="form-group">
+                <label for="{{ form.incident_place.id_for_label }}" class="form-label">Place of Incident</label>
+                {{ form.incident_place }}
+            </div>
+        </div>
+        
+        <div class="form-group">
+            <label for="{{ form.narrative.id_for_label }}" class="form-label">Narrative / Details</label>
+            {{ form.narrative }}
+        </div>
+        
+        <div style="display: flex; justify-content: flex-end; gap: 1rem; margin-top: 2rem;">
+            <a href="{% url 'blotter_case_list' %}" class="btn btn-secondary">Cancel</a>
+            <button type="submit" class="btn btn-primary">File Case</button>
+        </div>
+    </form>
+</div>
+{% endblock %}
