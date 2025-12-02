@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'apps.documents',
     'apps.sessions',
     'apps.blotter',
+    'apps.public',
     'django.contrib.humanize',
 ]
 
@@ -128,7 +129,7 @@ STATICFILES_DIRS = [BASE_DIR / 'static']
 
 AUTH_USER_MODEL = 'authentication.User'
 LOGIN_REDIRECT_URL = 'home'
-LOGOUT_REDIRECT_URL = 'login'
+LOGOUT_REDIRECT_URL = 'public_home'
 LOGIN_URL = 'login'
 
 # Default primary key field type

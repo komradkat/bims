@@ -5,6 +5,10 @@
     </div>
     
     <nav style="display: flex; flex-direction: column; gap: 0.5rem;">
+        <a href="{% url 'public_home' %}" class="btn btn-secondary" style="justify-content: flex-start; border: none; color: rgba(255,255,255,0.8); margin-bottom: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); border-radius: 0;">
+            &larr; View Public Site
+        </a>
+
         <a href="{% url 'home' %}" class="btn btn-secondary {% if request.resolver_match.url_name == 'home' %}active{% endif %}" style="justify-content: flex-start; border: none; color: rgba(255,255,255,0.8);">
             Dashboard
         </a>

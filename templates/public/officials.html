@@ -1,0 +1,40 @@
+{% extends "layouts/public.html" %}
+
+{% block title %}Officials - {{ barangay_info.name }}{% endblock %}
+
+{% block content %}
+<div class="section" style="background-color: #f8f9fa;">
+    <div class="container">
+        <h1 style="text-align: center; margin-bottom: 3rem;">Barangay Officials</h1>
+        
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 2rem;">
+            {% for official in officials %}
+            <div class="card" style="text-align: center; padding: 2rem; border: none; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1);">
+                <div style="width: 120px; height: 120px; background-color: #e0e0e0; border-radius: 50%; margin: 0 auto 1.5rem auto; overflow: hidden;">
+                    {% if official.photo %}
+                        <img src="{{ official.photo.url }}" alt="{{ official.first_name }}" style="width: 100%; height: 100%; object-fit: cover;">
+                    {% else %}
+                        <div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; color: #757575; font-size: 2.5rem;">
+                            {{ official.first_name|first }}{{ official.last_name|first }}
+                        </div>
+                    {% endif %}
+                </div>
+                
+                <h3 style="margin: 0 0 0.5rem 0; color: var(--color-primary);">{{ official.first_name }} {{ official.last_name }}</h3>
+                <div style="font-weight: 600; color: var(--color-secondary); margin-bottom: 0.5rem;">{{ official.get_position_display }}</div>
+                
+                {% if official.committee %}
+                <div style="font-size: 0.875rem; color: var(--color-text-secondary);">
+                    {{ official.committee }}
+                </div>
+                {% endif %}
+            </div>
+            {% empty %}
+            <div style="grid-column: 1 / -1; text-align: center; padding: 3rem; color: var(--color-text-secondary);">
+                No officials found.
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
